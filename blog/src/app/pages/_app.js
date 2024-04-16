@@ -1,9 +1,11 @@
-import Layout from '../components/layout'
- 
-export default function MyApp({ Component, pageProps }) {
+import { ThemeProvider } from 'next-themes'
+
+function MyApp({ Component, pageProps }) {
   return (
-    <Layout>
+    <ThemeProvider defaultTheme='system' attribute='class'>
       <Component {...pageProps} />
-    </Layout>
+    </ThemeProvider>
   )
 }
+
+export default MyApp

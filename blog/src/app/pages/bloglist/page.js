@@ -62,6 +62,7 @@ import sanityClient from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
 import BlockContent from '@sanity/block-content-to-react';
 import Header from '../../components/Header';
+import Link from 'next/link';
 
 const client = sanityClient({
   projectId: '03d3ui0u', // replace with your Sanity project ID
@@ -87,25 +88,49 @@ const Page = () => {
       .catch(console.error);
   }, []);
 
-return (
-  <>
-    <Header />
-    <div className="max-w-screen-xl mx-auto">
-      {posts.map((post) => (
-        <div key={post.slug.current} className="border-2 border-gray-200 p-4 m-4 flex flex-col md:flex-row h-[200px] w-full">
-          <img className="w-full md:w-1/3 object-cover rounded" src={urlFor(post.mainImage).width(400).url()} alt={post.title} />
-          <div className="mt-4 md:mt-0 md:ml-6">
-            <div className="font-bold text-xl mb-2">{post.title}</div>
-            <div className="text-sm mb-2 text-gray-600">By {post.author.name}</div>
-            <div className="line-clamp-2 overflow-ellipsis overflow-hidden">
-              <BlockContent blocks={post.body} />
+  return (
+    <>
+      <Header />
+      <div className="max-w-screen-xl mx-auto space-y-10 mt-8 mb-8">
+        {posts.map((post) => (
+          <div key={post.slug.current} className="relative flex bg-black text-white shadow-md w-full max-w-[70rem] flex-row m-5 rounded-xl border-2 border-gray-800 transition-transform duration-500 ease-in-out transform hover:scale-105">
+            <div
+              className="relative w-2/5 m-0 overflow-hidden text-white bg-black rounded-r-none bg-clip-border rounded-xl shrink-0"
+            >
+              <img
+                src={urlFor(post.mainImage).width(400).url()}
+                alt={post.title}
+                className="object-cover w-full h-full"
+              />
+            </div>
+            <div className="p-6">
+              <h6
+                className="block mb-4 font-sans text-base antialiased font-semibold leading-relaxed tracking-normal text-white uppercase"
+              >
+                {post.category}
+              </h6>
+              <h4 className="block mb-2 font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-white">
+                {post.title}
+              </h4>
+              <p className="block mb-8 font-sans text-base antialiased font-normal leading-relaxed text-white">
+                {post.excerpt}
+              </p>
+              <Link href={`/blog/${post.slug.current}`} passHref>
+                <div>
+                  <a className="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-white uppercase align-middle transition-all rounded-lg select-none disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none hover:bg-white/10 active:bg-white/20">
+                    Learn More
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" className="w-4 h-4">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"></path>
+                    </svg>
+                  </a>
+                </div>
+              </Link>
             </div>
           </div>
-        </div>
-      ))}
-    </div>
-  </>
-);
+        ))}
+      </div>
+    </>
+  );
 };
 
 export default Page;

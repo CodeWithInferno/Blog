@@ -57,6 +57,8 @@
 
 
 'use client';
+
+
 import React, { useEffect, useState } from 'react';
 import sanityClient from '@sanity/client';
 import imageUrlBuilder from '@sanity/image-url';
@@ -91,11 +93,11 @@ const Page = () => {
   return (
     <>
       <Header />
-      <div className="max-w-screen-xl mx-auto space-y-10 mt-8 mb-8">
+      <div className="max-w-screen-xl mx-auto space-y-10 mt-8 mb-8 px-4 sm:px-6 lg:px-8">
         {posts.map((post) => (
-          <div key={post.slug.current} className="relative flex bg-black text-white shadow-md w-full max-w-[70rem] flex-row m-5 rounded-xl border-2 border-gray-800 transition-transform duration-500 ease-in-out transform hover:scale-105">
+          <div key={post.slug.current} className="relative flex flex-col sm:flex-row bg-black text-white shadow-md w-full max-w-[70rem] m-5 rounded-xl border-2 border-gray-800 transition-transform duration-500 ease-in-out transform hover:scale-105 mr-1">
             <div
-              className="relative w-2/5 m-0 overflow-hidden text-white bg-black rounded-r-none bg-clip-border rounded-xl shrink-0"
+              className="relative w-full sm:w-2/5 m-0 overflow-hidden text-white bg-black rounded-r-none bg-clip-border rounded-xl shrink-0"
             >
               <img
                 src={urlFor(post.mainImage).width(400).url()}

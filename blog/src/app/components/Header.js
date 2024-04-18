@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { useSession, signIn, signOut } from 'next-auth/react'
 
 const Header = () => {
+    const { data: session } = useSession();
     const [isOpen, setIsOpen] = useState(false);
+    const [isDropdownOpen, setDropdownOpen] = useState(false); // New state for dropdown
 
     return (
         <nav className="bg-transparent border-b border-gray-800">
@@ -16,6 +19,19 @@ const Header = () => {
                             <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</a>
                             <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Services</a>
                             <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Contact</a>
+                            {session ? (
+                                <div className="relative">
+                                    <img onClick={() => setDropdownOpen(!isDropdownOpen)} src={session.user.image} alt="Profile picture" className="h-8 w-8 rounded-full cursor-pointer" />
+                                    {isDropdownOpen && (
+                                        <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                                            <button onClick={() => console.log('Settings')} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</button>
+                                            <button onClick={() => signOut()} className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</button>
+                                        </div>
+                                    )}
+                                </div>
+                            ) : (
+                                <button onClick={() => signIn()} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Sign In</button>
+                            )}
                         </div>
                     </div>
                     <div className="md:hidden">
@@ -32,6 +48,11 @@ const Header = () => {
                         <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">About</a>
                         <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Services</a>
                         <a href="#" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Contact</a>
+                        {session ? (
+                            <img src={session.user.image} alt="Profile picture" className="h-20 w-20 rounded-full" />
+                        ) : (
+                            <button onClick={() => signIn()} className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Sign In</button>
+                        )}
                     </div>
                 </div>
             </div>

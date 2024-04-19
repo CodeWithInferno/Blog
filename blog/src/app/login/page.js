@@ -202,6 +202,7 @@ import React from 'react'
 import  { useState } from 'react'
 import sanityClient from '@sanity/client'
 
+
 const Login = () => {
   const { data: session, status } = useSession();
   const [formValid, setFormValid] = useState(true);
@@ -224,9 +225,10 @@ const Login = () => {
       const profileImage = session.user.image;
       const password = form.elements.password.value;
       const bio = form.elements.bio.value;
+      console.log(profileImage);
 
       // Check if username already exists
-      const query = `*[_type == "User" && username == $username]`;
+      const query = `*[_type == "Users" && username == $username]`;
       const params = {username};
       const userExists = await client.fetch(query, params);
 
@@ -237,7 +239,7 @@ const Login = () => {
       }
 
       const user = {
-        _type: 'User',
+        _type: 'Users',
         name,
         username,
         password,
